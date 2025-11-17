@@ -1,0 +1,344 @@
+:root{
+    --header-height: 84px; /* increased header height to add vertical gap */
+    /* lower value moves the image up (shows more of the top/head). set to 25% to reveal head */
+    --avatar-pos: 25%;
+    /* timeline accent colors */
+    --accent: #98e8cd;
+    --accent-bright: #dffef0;
+}
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    /* page background: deep navy */
+    background: #020912;
+    /* default text color changed to white per request */
+    color: #ffffff;
+}
+/* Header */
+header.site-header{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:var(--header-height);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    /* increased horizontal padding per request */
+    padding:0 48px;
+    margin-top:35px; /* user-requested top margin */
+    background:#020912; /* header background box matching site background */
+    box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    z-index:10;
+}
+
+/* Fill the visual gap above the fixed header without moving header content.
+   The header itself uses margin-top:35px, so create a fixed layer matching
+   header height + that offset. It sits under the header (lower z-index)
+   and won't affect layout or pointer events. */
+body::before{
+    content: "";
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:calc(var(--header-height) + 35px);
+    background: #020912; /* match site/header background */
+    z-index:9; /* below header.site-header (z-index:10) */
+    pointer-events:none;
+}
+.logo{
+    display:inline-block;
+    line-height:0; /* ensure no extra whitespace around the inline image */
+    text-decoration:none;
+    color:inherit;
+    /* removed white pill background per request */
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+.logo-img{
+    display:block;
+    height:80px; /* increased logo size to better match the larger header */
+    width:auto;
+}
+
+/* visible textual site name next to the SVG so we can color it differently */
+.hero-name{
+    color: #98e8cd; /* requested mint/teal color for "Bipul Sanjel" inside hero */
+    font-weight:700;
+}
+nav.site-nav ul{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    gap:28px; /* increased spacing between nav items */
+    align-items:center;
+}
+nav.site-nav a{
+    text-decoration:none;
+    color:inherit;
+    font-weight:600;
+    font-size:1.2rem; /* increased nav size for better legibility and touch */
+    padding:10px 10px; /* larger focus/tap target */
+    border-radius:6px;
+}
+
+/* hover & focus styles for nav links (accessibility + visible feedback) */
+nav.site-nav a:hover,
+nav.site-nav a:focus{
+    color:#98e8cd;
+    outline:none;
+    /* removed hover box-shadow/border effect as requested */
+}
+
+/* Main hero */
+main.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    /* increased horizontal padding to give more space on left and right */
+    padding: calc(var(--header-height) + 40px) 48px 48px;
+}
+.hero-inner{
+    max-width:900px;
+    text-align:center;
+}
+.hero h1{
+    margin:0 0 12px 0;
+    font-weight:700;
+    /* Headline uses Numans per user request; fallback to Uncial Antiqua and system fonts */
+    font-family: 'Numans', 'Zen Loop', 'Uncial Antiqua', Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, serif;
+    font-size: 5.4rem; /* updated size per request */
+}
+.hero p.lead{
+    /* Lead paragraph uses Poiret One per user request, with fallbacks */
+    font-family: 'Poiret One', 'Playwrite FR Moderne', 'Uncial Antiqua', Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, serif;
+    margin:0 0 28px 0;
+    /* visible on dark background */
+    color:#ffffff;
+    font-size:1.8rem; /* updated size per request */
+}
+.btn{
+    display:inline-flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 28px; /* larger button size */
+    background: transparent;
+    color:#98e8cd;
+    text-decoration:none;
+    border-radius:30px; /* increased corner radius */
+    font-weight:600;
+    font-size:1.05rem;
+    /* layered background: first layer is the button fill (matches page bg), second layer is the animated gradient border */
+    border:3px solid transparent; /* slightly thicker border so the gradient shows clearly */
+    /* include white plus mint tones to increase contrast and visibility on dark bg */
+    background-image: linear-gradient(#020912, #020912), linear-gradient(90deg, #ffffff 0%, #7EF2C7 30%, #6EE7B7 60%, #ffffff 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    /* make gradient wider so it can move; first layer fixed, second layer animated */
+    /* make the animated layer much wider so movement is obvious */
+    background-size: 100% 100%, 400% 100%;
+    /* start the gradient off-left and move it fully across */
+    background-position: 0 0, -50% 50%;
+    /* subtle outer glow to the border */
+    box-shadow: 0 8px 26px rgba(126,242,199,0.10);
+    will-change: background-position, box-shadow;
+    /* animate the gradient layer to create a looping glow along the border when idle
+       and a slow subtle pulse to the glow for a breathing effect */
+    animation: gradient-border 12s linear infinite, pulse 9s ease-in-out infinite alternate;
+    transition: background-image 180ms ease, color 180ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.btn{margin-top:40px;} /* slightly more spacing above the button */
+
+.btn::after{
+    content: '→';
+    display:inline-block;
+    margin-left:0;
+    font-weight:700;
+    font-size:1.25rem; /* slightly larger arrow */
+    transform: translateY(-1px);
+}
+
+.btn:hover{
+    /* Fill the button with the same gradient and invert text color for contrast */
+    background-image: linear-gradient(90deg, #ffffff 0%, #7EF2C7 30%, #6EE7B7 60%, #ffffff 100%), linear-gradient(90deg, #ffffff 0%, #7EF2C7 30%, #6EE7B7 60%, #ffffff 100%);
+    color: #020912;
+    transform: translateY(-1px);
+    /* slightly stronger glow on hover */
+    box-shadow: 0 14px 40px rgba(46,194,164,0.22);
+    /* pause the idle animations while hovering for a stable filled look */
+    animation-play-state: paused;
+}
+
+@keyframes gradient-border{
+    0%{
+        background-position: 0 0, -50% 50%;
+    }
+    50%{
+        background-position: 0 0, 150% 50%;
+    }
+    100%{
+        background-position: 0 0, -50% 50%;
+    }
+}
+
+@keyframes pulse{
+    0%{
+        box-shadow: 0 6px 18px rgba(126,242,199,0.06);
+        transform: translateY(0) scale(1);
+    }
+    50%{
+        box-shadow: 0 10px 26px rgba(126,242,199,0.10);
+        transform: translateY(-0.5px) scale(1.005);
+    }
+    100%{
+        box-shadow: 0 6px 18px rgba(126,242,199,0.06);
+        transform: translateY(0) scale(1);
+    }
+}
+
+.btn:focus{
+    outline: none;
+    box-shadow: 0 0 0 6px rgba(152,232,205,0.14);
+}
+/* Small responsive tweaks */
+@media (max-width:520px){
+    .hero h1{font-size:1.6rem}
+    nav.site-nav ul{gap:12px}
+}
+/* ensure anchors account for the fixed header */
+html{
+    scroll-padding-top: var(--header-height);
+    /* allow smooth in-page anchor scrolling */
+    scroll-behavior: smooth;
+}
+
+/* About section styles */
+.about-section{
+    padding: 60px 48px;
+    /* make the about section span the full viewport minus header height */
+    min-height: calc(100vh - var(--header-height));
+    display: flex;
+    align-items: center; /* vertical center the inner content */
+}
+.about-inner{
+    /* increased so both columns can be generous on wide screens */
+    max-width:1400px;
+    margin:0 auto;
+}
+.about-grid{
+    display:grid;
+    /* give the right column more room for a bigger avatar and to push it further right */
+    grid-template-columns: 1fr 720px;
+    gap:36px;
+    align-items:center;
+}
+.about-title{
+    color:#98e8cd;
+    font-size:5.0rem; /* kept per request */
+    margin:0 0 36px 0; /* larger gap between title and paragraph */
+    line-height:1;
+}
+.about-left p{
+    color: #eafaf1; /* light off-white for readability */
+    line-height:1.6;
+    margin:0 0 12px 0;
+    font-size:1.2rem; /* increased per request */
+    max-width:1000px; /* allow longer paragraph lines on wide viewports */
+}
+.about-right{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end; /* push avatar to the right edge of its column */
+    padding-right:12px;
+}
+.avatar-placeholder{
+    width:420px; /* container size */
+    height:420px;
+    display:block;
+    position:relative;
+    margin-left:auto; /* ensure it hugs the right */
+    border-radius:50%; /* circular mask */
+    /* subtle internal gradient as the decorative background */
+    background: radial-gradient(circle at 30% 25%, rgba(126,242,199,0.12), rgba(10,201,159,0.04) 45%, rgba(2,10,18,0) 65%);
+    border:4px solid rgba(255,255,255,0.06);
+    overflow:hidden; /* keep image inside the circle */
+}
+
+/* keep the image fully inside the circle */
+.avatar-img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover; /* ensure the photo fills the circle without distortion */
+    /* use a CSS variable so we can nudge the photo vertically to reveal your head */
+    object-position: 50% var(--avatar-pos);
+    position:relative;
+    z-index:2;
+    transform:none;
+    box-shadow:none;
+    transition:none;
+}
+
+@media (max-width:1400px){
+    /* slightly narrower columns on very large but not full-wide screens */
+    .about-grid{grid-template-columns: 1fr 620px}
+    .avatar-placeholder{width:380px;height:380px}
+}
+@media (max-width:1200px){
+    /* mid-size screens */
+    .about-grid{grid-template-columns: 1fr 520px}
+    .avatar-placeholder{width:320px;height:320px}
+}
+@media (max-width:900px){
+    .about-grid{grid-template-columns:1fr 420px}
+    .avatar-placeholder{width:260px;height:260px}
+}
+@media (max-width:680px){
+    .about-grid{grid-template-columns:1fr;gap:20px}
+    .about-right{order:2}
+    .about-left{order:1}
+    .avatar-placeholder{width:180px;height:180px;margin:0 auto}
+}
+
+
+/* Projects section */
+.projects-section{
+        padding: 48px 48px 96px 48px;
+        background: transparent;
+}
+.projects-inner{max-width:1100px;margin:0 auto}
+.projects-grid{
+        display:grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap:24px;
+        margin-top:20px;
+}
+.project-card{
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.03);
+        padding:20px;
+        border-radius:12px;
+        color:#eefaf5;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+}
+.project-card h3{margin:0 0 8px 0;font-size:1.05rem}
+.project-card p{margin:0 0 12px 0;color:#cfe9de}
+.project-link{color:var(--accent);font-weight:600;text-decoration:none}
+
+@media (max-width:1000px){
+    .projects-grid{grid-template-columns: repeat(2, 1fr)}
+}
+@media (max-width:720px){
+    .projects-grid{grid-template-columns: 1fr}
+}
+
+
+.timeline-item::before {
+  content: none !important;
+}

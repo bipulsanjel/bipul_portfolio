@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Projects Slider — Example</title>
+  <style>
+    /* Simple, modern slider CSS (Tailwind-like vibe but plain CSS) */
+    :root{
+      --bg:#020912;
+      --card:#072026;
+      --muted:#9fbab1;
+      --accent:#98e8cd;
+      --gap:18px;
+      --radius:12px;
+      --shadow: 0 8px 30px rgba(2,6,8,0.6);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:#eafaf1}
+    .page{max-width:1100px;margin:36px auto;padding:24px}
+
+    /* Slider container */
+    .slider-wrap{position:relative}
+    .slider-title{font-size:1.75rem;margin:0 0 8px;color:var(--accent);font-weight:700}
+    .slider-sub{color:var(--muted);margin:0 0 18px}
+
+    /* Horizontal scroll area */
+    .slider{
+      display:flex;
+      gap:var(--gap);
+      overflow-x:auto;
+      scroll-behavior:smooth;
+      padding:12px 6px 12px 6px;
+      -webkit-overflow-scrolling:touch;
+    }
+    /* hide native scrollbar in a tasteful way (still scrollable) */
+    .slider::-webkit-scrollbar{height:10px}
+    .slider::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.06);border-radius:999px}
+
+    .card{
+      flex:0 0 320px; /* base card width (responsive adjustments below) */
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,0.03);
+      min-height:160px;
+      transition:transform .18s ease, box-shadow .18s ease;
+      display:flex;flex-direction:column;gap:10px;
+    }
+
+    .card:hover{transform:translateY(-6px);box-shadow:0 20px 44px rgba(0,0,0,0.6)}
+
+    .card h3{margin:0;font-size:1.05rem;color:#e9fbf5}
+    .card p{margin:0;color:#cfe9de;flex:1}
+    .card .meta{color:var(--muted);font-size:0.9rem}
+
+    /* Arrow controls */
+    .arrow{
+      position:absolute;top:50%;transform:translateY(-50%);
+      width:44px;height:44px;border-radius:10px;border:none;background:rgba(255,255,255,0.02);backdrop-filter:blur(6px);
+      display:inline-grid;place-items:center;color:var(--accent);cursor:pointer;box-shadow:0 6px 18px rgba(2,6,8,0.6);
+    }
+    .arrow:active{transform:translateY(-50%) scale(.98)}
+    .arrow.left{left:-10px}
+    .arrow.right{right:-10px}
+
+    /* accessible hidden label spacing */
+    .arrow svg{width:18px;height:18px}
+
+    /* Responsive card sizing */
+    @media (max-width:1080px){.card{flex:0 0 280px}}
+    @media (max-width:880px){.card{flex:0 0 240px}}
+    @media (max-width:620px){.card{flex:0 0 86%} .arrow{display:none}}
+
+    /* Small detail: show a subtle gradient overlay on the ends to hint at scroll */
+    .fade-left,.fade-right{pointer-events:none;position:absolute;top:0;bottom:0;width:56px}
+    .fade-left{left:0;background:linear-gradient(90deg,var(--bg) 0%, rgba(2,9,18,0) 100%)}
+    .fade-right{right:0;background:linear-gradient(270deg,var(--bg) 0%, rgba(2,9,18,0) 100%)}
+    @media (max-width:620px){.fade-left,.fade-right{display:none}}
+
+    /* small helpers */
+    .controls{display:flex;gap:12px;align-items:center}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h2 class="slider-title">Featured Projects</h2>
+    <p class="slider-sub">Horizontal card slider — swipe or use arrows to navigate</p>
+
+    <div class="slider-wrap" aria-label="Projects carousel">
+      <button class="arrow left" aria-label="Scroll left"> 
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+
+      <div class="fade-left" aria-hidden></div>
+
+      <div class="slider" role="list">
+        <!-- User-provided project cards (exact content only) -->
+
+        <article class="card" role="listitem">
+          <h3>Park In — Smart Parking Assistant App</h3>
+          <p class="category">Category: Mobile App • Flutter</p>
+          <p class="summary">Summary: A modern parking assistant app designed to simplify the parking experience.</p>
+          <p class="desc">Park In is a prototype mobile application built using Flutter that helps users navigate parking spaces with a clean, intuitive flow. The design focuses on simplicity, quick actions, and user-friendly interactions. I developed the initial prototype, integrated smart flow logic, and designed all interfaces using Figma.</p>
+          <p class="tech">Tech Used: Flutter, Dart, Figma</p>
+          <p class="contrib">My Contribution: UI/UX, prototyping, user flow design, basic state management.</p>
+        </article>
+
+        <article class="card" role="listitem">
+          <h3>Nemesis — Personal AI Voice Assistant for Ubuntu</h3>
+          <p class="category">Category: Automation • Python</p>
+          <p class="summary">Summary: A Jarvis-style assistant that responds, announces system events, and helps automate tasks.</p>
+          <p class="desc">Nemesis is a voice-activated assistant I built for Ubuntu using Python, Vosk, and custom scripts. It greets on login, announces AC power events, reads notifications aloud, monitors temperature, assists with voice commands, and handles task automation with zero overlap. Designed to feel like a clean, minimal, tech-vibe AI companion.</p>
+          <p class="tech">Tech Used: Python, Vosk, Bash, Linux automation</p>
+          <p class="contrib">My Contribution: End-to-end scripting, voice activation, event listeners, system integration</p>
+        </article>
+
+        <article class="card" role="listitem">
+          <h3>CosmoFest 2025 — Event Branding & Design</h3>
+          <p class="category">Category: UI/UX • Graphic Design</p>
+          <p class="summary">Summary: Led the design for a major college tech fest and secured first place in project demo.</p>
+          <p class="desc">For CosmoFest 2025, I handled branding, poster design, and promotional visuals using Figma, Illustrator, and Canva. My work focused on consistency, visual hierarchy, and modern layouts. The event’s visual identity was highly appreciated, and I secured first place in the project demonstration competition.</p>
+          <p class="tech">Tech Used: Figma, Illustrator, Canva</p>
+          <p class="contrib">My Contribution: Branding, graphic design, layout strategy</p>
+        </article>
+
+        <article class="card" role="listitem">
+          <h3>Sponsorship Proposal for Miss Vibhaa</h3>
+          <p class="category">Category: Professional Design • Layout & Publishing</p>
+          <p class="summary">Summary: Designed a premium sponsorship proposal for a national beauty pageant.</p>
+          <p class="desc">Created a clean, modern sponsorship proposal for the Miss Vibhaa competition. The document included high-end layouts, typography systems, event photos, and structured content using Canva and Figma. The proposal was key to attracting sponsors and represented a polished, professional standard.</p>
+          <p class="tech">Tech Used: Canva, Figma</p>
+          <p class="contrib">My Contribution: Layout design, content structuring, visual direction</p>
+        </article>
+
+        <article class="card" role="listitem">
+          <h3>Linux Server Deployment (WordPress on LEMP)</h3>
+          <p class="category">Category: Cloud • DevOps</p>
+          <p class="summary">Summary: Deployed a fully configured WordPress site on Azure using the LEMP stack.</p>
+          <p class="desc">Using my Azure student account, I deployed an Ubuntu VM, configured Nginx, PHP, MySQL, phpMyAdmin, and installed WordPress with SSL. Managed DNS via Cloudflare and completed full setup, cleanup, and hosting environment preparation for academic requirements.</p>
+          <p class="tech">Tech Used: Linux, Azure, Nginx, MySQL, PHP</p>
+          <p class="contrib">My Contribution: Server setup, domain configuration, security basics</p>
+        </article>
+
+        <article class="card" role="listitem">
+          <h3>Blink Monitor — Python Automation Tool</h3>
+          <p class="category">Category: Python • Utility</p>
+          <p class="summary">Summary: A fun tool that detects eye blinks using OpenCV.</p>
+          <p class="desc">Built a blink-detection script using OpenCV that detects eye movements in real time. It was a quick experiment to learn computer vision fundamentals and improve Python scripting skills.</p>
+          <p class="tech">Tech Used: Python, OpenCV</p>
+          <p class="contrib">My Contribution: Script logic, testing, optimization</p>
+        </article>
+
+      </div>
+
+      <div class="fade-right" aria-hidden></div>
+
+      <button class="arrow right" aria-label="Scroll right">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    // Slider behaviour: scroll by one card width when arrows are clicked.
+    (function(){
+      const slider = document.querySelector('.slider');
+      const btnLeft = document.querySelector('.arrow.left');
+      const btnRight = document.querySelector('.arrow.right');
+
+      if(!slider) return;
+
+      // compute card width (including gap) for scrolling
+      function getStep(){
+        const card = slider.querySelector('.card');
+        if(!card) return slider.clientWidth * 0.8;
+        const style = getComputedStyle(slider);
+        const gap = parseFloat(getComputedStyle(slider).gap || getComputedStyle(slider)['column-gap'] || 18);
+        const cardWidth = card.getBoundingClientRect().width;
+        return Math.round(cardWidth + gap);
+      }
+
+      let step = getStep();
+      window.addEventListener('resize', ()=>{ step = getStep(); });
+
+      btnLeft.addEventListener('click', ()=>{
+        slider.scrollBy({left: -step, behavior: 'smooth'});
+      });
+      btnRight.addEventListener('click', ()=>{
+        slider.scrollBy({left: step, behavior: 'smooth'});
+      });
+
+      // support mouse wheel to scroll horizontally when not holding shift
+      slider.addEventListener('wheel', (e)=>{
+        if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){
+          // vertical wheel -> translate into horizontal scroll
+          slider.scrollBy({left: e.deltaY, behavior: 'auto'});
+          e.preventDefault();
+        }
+      }, {passive:false});
+
+      // keyboard support: arrows move slider
+      slider.setAttribute('tabindex', '0');
+      slider.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowRight') { slider.scrollBy({left: step, behavior:'smooth'}); }
+        if(e.key === 'ArrowLeft') { slider.scrollBy({left: -step, behavior:'smooth'}); }
+      });
+
+      // accessibility: hide arrows on small screens (handled by CSS) but keep functionality
+    })();
+  </script>
+</body>
+</html>

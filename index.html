@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Bipul Sanjel — Portfolio</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Numans&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Poiret+One&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="styles.css">
+		<link rel="stylesheet" href="credentials.css">
+
+		<!-- Draggable/animation libs -->
+		<script defer src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+		<script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+	</head>
+	<body>
+		<header class="site-header" role="banner">
+			<a href="/" class="logo" aria-label="Bipul Sanjel home">
+				<img src="logo_bipul.svg" alt="Bipul Sanjel logo" class="logo-img" />
+			</a>
+			<nav class="site-nav" role="navigation" aria-label="Main navigation">
+				<ul>
+					<li><a href="#about">About me</a></li>
+					<li><a href="#credentials">Credentials</a></li>
+					<li><a href="#projects">Projects</a></li>
+					<li><a href="#contact">Contact</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main class="hero" role="main">
+			<div class="hero-inner">
+				<h1>Hi, I'm <span class="hero-name">Bipul Sanjel</span></h1>
+				<p class="lead">I am a self-taught UI/UX designer and a computer engineering student.</p>
+				<a class="btn" href="Bipul_Sanjel_Resume.pdf" download>Download CV</a>
+			</div>
+		</main>
+
+		<!-- About section -->
+		<section id="about" class="about-section">
+			<div class="about-inner">
+				<div class="about-grid">
+					<div class="about-left">
+						<h2 class="about-title">About Me</h2>
+						<p>I am a self-taught UI/UX designer and a computer engineering student with a passion for solving real-life challenges through thoughtful design and efficient mobile development.</p>
+						<p>I have a strong background in Figma and a basic background in Flutter, and I enjoy interpreting hard concepts into intuitive digital experiences. Besides my design interest, I have taken leadership roles on collaborative projects and managed large-scale events, experiences that have allowed me to develop key skills in leadership, communication, and management. I pride myself on my attention to detail, my holistic understanding of users, and on becoming an expert at making intuitive, accessible, and beautiful-looking products. I am always looking for opportunities to learn, innovate, and take on projects that have a positive impact.</p>
+					</div>
+					<div class="about-right">
+						<!-- keep the photo; the decorative container behind it is styled in CSS -->
+						<figure class="avatar-placeholder">
+							<img src="hero_image.png" alt="Portrait of Bipul Sanjel" class="avatar-img" loading="lazy">
+						</figure>
+					</div>
+				</div>
+			</div>
+		</section>
+        
+		<section id="credentials" class="credentials-section">
+		  	<h2 class="timeline-title">Credentials</h2>
+		  	<div id="credentials-root" class="credentials-root"></div>
+		</section>
+
+		<section id="projects" class="projects-section" aria-label="Projects">
+					<style>
+						/* Make this section snap as a full-screen panel */
+						html,body{height:100%}
+						/* prevent horizontal page-level scrolling while keeping internal scroll containers functional */
+						body{scroll-snap-type:y proximity;overflow-x:hidden}
+
+						/* Full-width edge-to-edge container (use translateX centering to avoid negative-margin overflow) */
+						#projects{position:relative;background:var(--bg,#020912);overflow:visible;scroll-snap-align:start;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:0}
+						/* Constrain carousel to a centered content column instead of full-bleed */
+						.proj-edge{position:relative;width:100%;max-width:1200px;margin:0 auto;height:100vh;display:flex;align-items:center;overflow:visible;padding:0 1rem}
+		
+
+		
+			/* Premium carousel: GPU-accelerated transform rail with 3D perspective */
+			.carousel{width:100%;height:100%;position:relative;perspective:1200px}
+			/* viewport hides overflow; rail will be translated via JS */
+			.carousel-track{overflow:hidden;height:100%;position:relative}
+			.carousel-rail{display:flex;gap:2.5rem;align-items:center;height:100%;transition:transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);will-change:transform;transform:translateZ(0)}
+
+			/* Slide/card sizing: narrower, centered column look */
+			.slide{flex:0 0 auto;width:48%;max-width:680px;display:flex;justify-content:center;align-items:center;height:100%;transition:opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1)}
+			.card{width:100%;max-width:640px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:24px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 18px 44px rgba(2,6,8,0.7);color:var(--text,#eafaf1);transform-origin:center center;transition:transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),box-shadow 0.6s}
+			.card h3{margin:0 0 10px;font-size:1.3rem}
+			.card .muted{color:#9fbab1;margin:6px 0}
+			.card .desc{color:#cfe9de;margin-top:12px;line-height:1.5}
+
+			/* Center / side treatments */
+			/* stronger center emphasis and dimmer sides - increased prominence */
+			.slide.is-center{opacity:1;z-index:60}
+			.slide.is-center .card{transform:translateZ(90px) scale(1.22);box-shadow:0 52px 140px rgba(2,6,8,0.94)}
+			.slide.is-side{opacity:0.32;z-index:20;pointer-events:none}
+			.slide.is-side .card{transform:translateZ(0) scale(0.80);filter:grayscale(0.06);box-shadow:0 10px 22px rgba(2,6,8,0.56)}
+
+			/* Arrows: minimal, glowing */
+			/* position controls outside the content column using CSS var for content max width */
+			.proj-edge{--content-max:1200px}
+			.controls{position:absolute;top:50%;left:0;right:0;pointer-events:none;z-index:60}
+			.arrow{pointer-events:auto;position:absolute;top:50%;transform:translateY(-50%);width:62px;height:62px;border-radius:12px;border:none;background:rgba(8,12,10,0.14);color:#98e8cd;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 30px rgba(152,232,205,0.18),0 0 18px rgba(152,232,205,0.12);backdrop-filter:blur(6px);outline:none}
+			.arrow:hover{box-shadow:0 10px 40px rgba(152,232,205,0.28),0 0 28px rgba(152,232,205,0.18);transform:translateY(-50%) scale(1.02)}
+			.arrow svg{width:20px;height:20px;stroke:#98e8cd;stroke-width:1.8;fill:none}
+			/* place arrows outside the centered content column */
+			.arrow.left{left:calc(50% - (var(--content-max)/2) - 44px)}
+			.arrow.right{left:calc(50% + (var(--content-max)/2) + 12px)}
+
+			/* Pagination dots positioned near the cards (higher than before) */
+			.carousel-dots{position:absolute;left:50%;transform:translateX(-50%);bottom:180px;display:flex;gap:10px;z-index:70}
+			.carousel-dots .dot{width:10px;height:10px;border-radius:999px;border:none;background:rgba(255,255,255,0.08);cursor:pointer;transition:all 240ms ease;outline:none}
+			.carousel-dots .dot.active{width:28px;background:linear-gradient(90deg,#98e8cd,#6fe6c1);box-shadow:0 8px 20px rgba(152,232,205,0.18)}
+
+			/* Card footer: centered GitHub button */
+			.card .card-footer{display:flex;justify-content:center;margin-top:16px}
+			.card .repo-btn{display:inline-block;padding:10px 18px;border-radius:10px;background:linear-gradient(90deg,#98e8cd,#6fe6c1);color:#04201a;text-decoration:none;font-weight:600;box-shadow:0 8px 20px rgba(152,232,205,0.12);transition:transform 160ms ease, box-shadow 160ms ease}
+			.card .repo-btn:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(152,232,205,0.18)}
+
+			/* Projects section title */
+			.projects-title{position:relative;left:50%;transform:translateX(-50%);color:#98e8cd;font-size:5.0rem;letter-spacing:0.02em;margin:-110px 0 14px;text-align:center;z-index:55}
+			@media (min-width:900px){
+				.projects-title{position:absolute;top:18vh}
+			}
+		
+		    /* Responsive adjustments */
+											@media (max-width:1100px){
+												.carousel-track{padding:0 4vw}
+												.carousel-rail{gap:2rem}
+												.slide{width:78vw;max-width:none}
+											}
+
+												@media (max-width:760px){
+													.proj-edge{width:100%;margin-left:0;margin-right:0}
+													.carousel-track{padding:0 3rem}
+													.carousel-rail{gap:1.25rem}
+													.slide{width:92vw;max-width:none}
+													/* keep dots lower on small screens so they don't overlap card content */
+													.carousel-dots{bottom:24px}
+													/* arrows remain visible per request */
+												}
+		  </style>
+
+		  <div class="proj-edge">
+				<h2 class="projects-title">Projects</h2>
+		    <div class="carousel">
+					<div class="carousel-track" id="proj-track" tabindex="0" role="list">
+						<!-- Slides will be generated dynamically from projectsData (exact JSON provided by user) -->
+					</div>
+
+					<script>
+					(function(){
+						const projectsData = [
+							{
+								"title": "Park In — Smart Parking Assistant App",
+								"category": "Mobile App • Flutter",
+								"summary": "A modern parking assistant app designed to simplify the parking experience.",
+								"description": "Park In is a prototype mobile application built using Flutter that helps users navigate parking spaces with a clean, intuitive flow. The design focuses on simplicity, quick actions, and user-friendly interactions. I developed the initial prototype, integrated smart flow logic, and designed all interfaces using Figma.",
+								"tech": "Flutter, Dart, Figma",
+								"contribution": "UI/UX, prototyping, user flow design, basic state management."
+							},
+							{
+								"title": "Nemesis — Personal AI Voice Assistant for Ubuntu",
+								"category": "Automation • Python",
+								"summary": "A Jarvis-style assistant that responds, announces system events, and helps automate tasks.",
+								"description": "Nemesis is a voice-activated assistant I built for Ubuntu using Python, Vosk, and custom scripts. It greets on login, announces AC power events, reads notifications aloud, monitors temperature, assists with voice commands, and handles task automation with zero overlap. Designed to feel like a clean, minimal, tech-vibe AI companion.",
+								"tech": "Python, Vosk, Bash, Linux automation",
+								"contribution": "End-to-end scripting, voice activation, event listeners, system integration."
+							},
+							{
+								"title": "CosmoFest 2025 — Event Branding & Design",
+								"category": "UI/UX • Graphic Design",
+								"summary": "Led the design for a major college tech fest and secured first place in project demo.",
+								"description": "For CosmoFest 2025, I handled branding, poster design, and promotional visuals using Figma, Illustrator, and Canva. The event’s visual identity was highly appreciated, and I secured first place in the project demonstration competition.",
+								"tech": "Figma, Illustrator, Canva",
+								"contribution": "Branding, graphic design, layout strategy."
+							},
+							{
+								"title": "Blink Detection System",
+								"category": "Computer Vision • Python",
+								"summary": "A lightweight eye-blink detection system using facial landmarks.",
+								"description": "I developed a Python-based blink detection system using dlib’s facial landmark predictor and OpenCV. The system analyses the eye aspect ratio to detect blinks accurately. This was a foundational project for experimenting with computer vision and human–computer interaction.",
+								"tech": "Python, OpenCV, dlib",
+								"contribution": "Model implementation, logic design, testing."
+							},
+							{
+								"title": "Expense Tracker CLI Tool",
+								"category": "Automation • Python",
+								"summary": "A simple command-line expense manager for quick daily tracking.",
+								"description": "This CLI tool allows users to log expenses, categorize items, and generate summary reports. I built this to practice file handling and modular programming in Python. The tool is minimal, fast, and helps build command-line habits.",
+								"tech": "Python",
+								"contribution": "Full development, file I/O logic, CLI design."
+							},
+							{
+								"title": "WordPress on Azure LEMP Stack",
+								"category": "Cloud • DevOps",
+								"summary": "Configured a complete LEMP stack with WordPress on Azure using Student Account.",
+								"description": "I deployed a full WordPress website on an Azure VM using Nginx, MySQL, PHP, phpMyAdmin, firewall rules, domain setup, and SSL using Cloudflare and Certbot. This project strengthened my understanding of cloud infrastructure and Linux server administration.",
+								"tech": "Azure, Linux, Nginx, MySQL, PHP, WordPress, Cloudflare",
+								"contribution": "Server setup, database config, SSL, DNS, troubleshooting."
+							},
+							{
+								"title": "Figma UI/UX Collections (2020–2025)",
+								"category": "UI/UX • Design",
+								"summary": "A curated collection of my UI/UX work from 2020 to 2025.",
+								"description": "This includes my evolution in design — from early Canva posters and Illustrator practice (2020–2022) to complete UI systems and mobile app interfaces designed in Figma (2023–2025). It represents my growth in layout, typography, spacing, and modern design patterns.",
+								"tech": "Figma, Illustrator, Canva",
+								"contribution": "Design exploration, layout systems, component design."
+							}
+						];
+
+						const track = document.getElementById('proj-track');
+						// build a transformable rail inside the viewport
+						track.innerHTML = '<div class="carousel-rail" role="list"></div>';
+						const rail = track.querySelector('.carousel-rail');
+
+						// generate slides from exact projectsData into the rail
+						projectsData.forEach(p=>{
+							const slide = document.createElement('div'); slide.className='slide'; slide.setAttribute('role','listitem');
+							const art = document.createElement('article'); art.className='card';
+							art.innerHTML = `
+									<h3>${p.title}</h3>
+									<p class="muted">Category: ${p.category}</p>
+									<p class="muted">Summary: ${p.summary}</p>
+									<p class="desc">${p.description}</p>
+									<p class="muted">Tech Used: ${p.tech}</p>
+									<p class="muted">My Contribution: ${p.contribution}</p>
+									<div class="card-footer"><a class="repo-btn" href="https://github.com/bipul-sanjel" target="_blank" rel="noopener">View on GitHub</a></div>
+								`;
+							slide.appendChild(art);
+							rail.appendChild(slide);
+						});
+
+						// after rendering slides, make an infinite loop by cloning first/last
+						let slides = Array.from(rail.querySelectorAll('.slide'));
+						const realCount = slides.length;
+
+						// helper: enhance rail for smoother GPU transforms
+						rail.style.willChange = 'transform';
+						rail.style.backfaceVisibility = 'hidden';
+						rail.style.transformStyle = 'preserve-3d';
+
+						// Only clone when we have more than 1 slide
+						if(realCount > 1){
+							const firstClone = slides[0].cloneNode(true);
+							const lastClone = slides[slides.length-1].cloneNode(true);
+							firstClone.classList.add('clone');
+							lastClone.classList.add('clone');
+							rail.appendChild(firstClone);
+							rail.insertBefore(lastClone, rail.firstChild);
+							// refresh slides array to include clones
+							slides = Array.from(rail.querySelectorAll('.slide'));
+						}
+
+						// compute static positions for each slide center to avoid layout thrash
+						let positions = [];
+						function computePositions(){
+							positions = slides.map(s => s.offsetLeft - (track.clientWidth/2 - s.offsetWidth/2));
+						}
+
+						// start at the first real slide (index 1 if clones added, else 0)
+						let index = (realCount > 1) ? 1 : 0;
+
+						// create pagination dots for real slides only
+						const projEdge = track.closest('.proj-edge');
+						const dotsWrap = document.createElement('div'); dotsWrap.className = 'carousel-dots';
+						for(let i=0;i<realCount;i++){
+							const d = document.createElement('button'); d.className='dot'; d.type='button'; d.setAttribute('aria-label', 'Go to slide '+(i+1));
+							d.addEventListener('click', ()=>{ index = (realCount>1) ? i+1 : i; update(); resetAutoplay(); });
+							dotsWrap.appendChild(d);
+						}
+						if(projEdge) projEdge.appendChild(dotsWrap);
+
+						function updateDots(){
+							const ds = Array.from(dotsWrap.children);
+							const logical = realCount > 1 ? ((index-1+realCount)%realCount) : index;
+							ds.forEach((b,ii)=> b.classList.toggle('active', ii===logical));
+						}
+
+						// use precomputed positions and GPU-friendly translate3d
+						function update(instant){
+							if(!slides.length) return;
+							// ensure positions are up-to-date
+							if(!positions.length) computePositions();
+							let target = positions[index];
+							if(typeof target === 'undefined'){
+								// fallback to measured current
+								const current = slides[index];
+								target = current.offsetLeft - (track.clientWidth/2 - current.offsetWidth/2);
+							}
+
+							if(instant){
+								rail.style.transition = 'none';
+								rail.style.transform = `translate3d(${ -Math.round(target) }px,0,0)`;
+								// force paint then restore
+								requestAnimationFrame(()=>{ rail.offsetHeight; rail.style.transition = 'transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)'; });
+							} else {
+								rail.style.transform = `translate3d(${ -Math.round(target) }px,0,0)`;
+							}
+
+							slides.forEach((s,i)=>{
+								s.classList.toggle('is-center', i===index);
+								s.classList.toggle('is-side', i!==index);
+							});
+							updateDots();
+						}
+
+						// handle seamless jump when landing on clones
+						rail.addEventListener('transitionend', ()=>{
+							if(slides[index] && slides[index].classList.contains('clone')){
+								if(index === 0){
+									// jumped to clone of last -> go to real last
+									index = realCount;
+								} else if(index === slides.length - 1){
+									// jumped to clone of first -> go to real first
+									index = 1;
+								}
+								// recompute positions then jump without transition
+								computePositions();
+								update(true);
+							}
+						});
+
+						// initial layout center after first paint — compute positions first
+						requestAnimationFrame(()=>{ computePositions(); requestAnimationFrame(update); });
+
+						// bind controls when they exist in the DOM (controls are rendered after this script block)
+						function bindControls(){
+							const prevBtn = document.getElementById('proj-prev');
+							const nextBtn = document.getElementById('proj-next');
+							if(!prevBtn || !nextBtn){ setTimeout(bindControls, 50); return; }
+							prevBtn.addEventListener('click', ()=>{ index = index - 1; update(); resetAutoplay(); });
+							nextBtn.addEventListener('click', ()=>{ index = index + 1; update(); resetAutoplay(); });
+						}
+						bindControls();
+
+						// keyboard
+						track.tabIndex = 0;
+						track.addEventListener('keydown', (e)=>{
+							if(e.key === 'ArrowLeft'){ index = index - 1; update(); resetAutoplay(); }
+							if(e.key === 'ArrowRight'){ index = index + 1; update(); resetAutoplay(); }
+						});
+
+						// click-to-center (map clicks on real slides correctly)
+						slides.forEach((s,i)=> s.addEventListener('click', ()=>{ index = i; update(); }));
+
+						// recenter on resize — recompute positions for smooth transitions
+						let rt;
+						window.addEventListener('resize', ()=>{ clearTimeout(rt); rt = setTimeout(()=>{ computePositions(); update(true); }, 120); });
+
+						// autoplay with seamless increment
+						let autoplayId = null;
+						function startAutoplay(){ if(autoplayId) return; autoplayId = setInterval(()=>{ index = index + 1; update(); }, 4000); }
+						function stopAutoplay(){ if(!autoplayId) return; clearInterval(autoplayId); autoplayId = null; }
+						function resetAutoplay(){ stopAutoplay(); startAutoplay(); }
+
+						// pause on hover/focus
+						track.addEventListener('mouseenter', ()=> stopAutoplay());
+						track.addEventListener('mouseleave', ()=> startAutoplay());
+						track.addEventListener('focusin', ()=> stopAutoplay());
+						track.addEventListener('focusout', ()=> startAutoplay());
+
+						// start autoplay after initial paint
+						requestAnimationFrame(()=>{ startAutoplay(); });
+
+					})();
+					</script>
+
+			      <div class="controls">
+			        <button class="arrow left" id="proj-prev" aria-label="Previous"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6 L9 12 L15 18" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+			        <button class="arrow right" id="proj-next" aria-label="Next"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6 L15 12 L9 18" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+			      </div>
+			    </div>
+			  </div>
+		</section>
+			<section id="contact" class="contact-section" aria-label="Contact">
+				<style>
+					/* Contact page — upgraded UX, accessibility, and visuals */
+					.contact-section{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg,#020912);color:var(--text,#eafaf1);padding:6vh 1rem;position:relative}
+
+					/* soft animated aura behind the card (subtle drifting) */
+					.contact-card-wrap{position:relative;display:flex;align-items:center;justify-content:center}
+					.contact-card-wrap::before{
+						content:"";
+						position:absolute;
+						inset:-28px;
+						/* two gentle radial blobs with low opacity */
+						background:
+							radial-gradient(circle at 30% 30%, rgba(152,232,205,0.07), transparent 22%),
+							radial-gradient(circle at 70% 75%, rgba(111,230,193,0.05), transparent 20%);
+						filter:blur(28px);
+						opacity:0.9;
+						z-index:0;
+						pointer-events:none;
+						will-change:transform,background-position;
+						/* subtle multidirectional drift (faster) */
+						animation:auraMove 8s ease-in-out infinite;
+					}
+
+					@keyframes auraMove{
+						0%{transform:translate3d(-6px,0,0) scale(1);background-position:20% 30%,70% 80%}
+						25%{transform:translate3d(6px,-4px,0) scale(1.02);background-position:25% 35%,65% 75%}
+						50%{transform:translate3d(0,-8px,0) scale(1);background-position:30% 40%,60% 70%}
+						75%{transform:translate3d(-4px,6px,0) scale(1.01);background-position:22% 45%,72% 62%}
+						100%{transform:translate3d(-6px,0,0) scale(1);background-position:20% 30%,70% 80%}
+					}
+
+					/* animated gradient border using pseudo-element */
+					.contact-card{position:relative;z-index:5;max-width:920px;width:100%;background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));border-radius:18px;padding:40px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 36px 100px rgba(2,6,8,0.75);text-align:center;backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);overflow:hidden}
+					.contact-card::after{content:"";position:absolute;inset:0;padding:2px;border-radius:20px;background:linear-gradient(90deg,#7ef0c6,#98e8cd,#6fe6c1,#7ef0c6);-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);mask-composite:exclude;pointer-events:none;opacity:0.8;filter:blur(10px)}
+
+					/* entrance animation triggered when .in-view is applied (JS adds class) */
+					.contact-card{transform:translateY(18px);opacity:0;transition:transform 620ms cubic-bezier(0.2,0.9,0.2,1),opacity 520ms ease}
+					.contact-card.in-view{transform:translateY(0);opacity:1}
+
+					.contact-sub{display:block;color:#9fbab1;font-size:0.95rem;margin-bottom:8px}
+					.contact-title{color:#98e8cd;font-size:3.2rem;margin:0 0 6px}
+					.contact-lead{color:#cfe9de;margin-bottom:22px;font-size:1.05rem}
+
+					form.contact-form{display:grid;gap:14px;grid-template-columns:1fr 1fr;align-items:start}
+					form.contact-form .full{grid-column:1/-1}
+					.field-label{display:block;text-align:left;font-size:0.85rem;color:#9fbab1;margin-bottom:6px}
+
+					input,textarea{width:100%;padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:inherit;font-size:1rem;outline:none}
+					input:focus,textarea:focus{box-shadow:0 6px 30px rgba(152,232,205,0.12);border-color:rgba(152,232,205,0.36);transform:translateZ(0);}
+					input:focus{box-shadow:0 8px 34px rgba(152,232,205,0.14)}
+					textarea{min-height:150px;resize:vertical}
+
+					/* stronger focus outlines for accessibility */
+					input:focus,textarea:focus{outline:3px solid rgba(152,232,205,0.14);outline-offset:3px}
+
+					/* micro-interactions: hover + focus glow */
+					input:hover,textarea:hover{border-color:rgba(152,232,205,0.12)}
+
+					.submit-btn{display:inline-block;padding:14px 26px;border-radius:12px;background:linear-gradient(90deg,#7ef0c6,#98e8cd);color:#04201a;font-weight:800;border:none;cursor:pointer;margin-top:6px;transition:transform 180ms ease, box-shadow 180ms ease, background-position 400ms ease;background-size:200% 100%}
+					.submit-btn:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 20px 50px rgba(14,30,25,0.18);background-position:100% 0}
+					.submit-btn:active{transform:translateY(-1px)}
+
+					/* social buttons */
+					.socials{display:flex;gap:12px;justify-content:center;margin-top:18px}
+					.social-btn{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:rgba(255,255,255,0.03);color:#eafaf1;text-decoration:none;border:1px solid rgba(255,255,255,0.04);font-weight:700;transition:transform 180ms ease, box-shadow 180ms ease}
+					.social-btn svg{width:18px;height:18px;fill:currentColor;transition:transform 160ms ease}
+					/* Nudge the LinkedIn icon slightly upward for visual alignment */
+					.socials a[href*="linkedin"] svg{transform:translateY(-3px)}
+					.social-btn:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,8,0.6)}
+
+					/* large tap targets for mobile */
+					.social-btn{padding:12px 18px;font-size:0.95rem}
+
+					/* responsive */
+					@media(max-width:900px){.contact-title{font-size:2.6rem}.contact-card{padding:28px}}
+					@media(max-width:760px){form.contact-form{grid-template-columns:1fr}.contact-title{font-size:2.2rem}.contact-sub{font-size:0.9rem}}
+				</style>
+
+				<div class="contact-card-wrap">
+					<div class="contact-card" id="contact-card">
+						<h2 class="contact-title">Contact</h2>
+						<span class="contact-sub">Let's build something together</span>
+						<p class="contact-lead">I’m open to new projects and collaborations. Send a short note and I’ll reply as soon as I can.</p>
+
+						<form class="contact-form" action="#" method="post" novalidate aria-label="Contact form">
+							<div>
+								<label class="field-label" for="c-name">Name</label>
+								<input id="c-name" name="name" placeholder="Your name" required aria-required="true" aria-label="Your name">
+							</div>
+
+							<div>
+								<label class="field-label" for="c-email">Email</label>
+								<input id="c-email" name="email" type="email" placeholder="Your email" required aria-required="true" aria-label="Your email">
+							</div>
+
+							<div class="full">
+								<label class="field-label" for="c-subject">Subject</label>
+								<input id="c-subject" class="full" name="subject" placeholder="Subject" aria-label="Subject">
+							</div>
+
+							<div class="full">
+								<label class="field-label" for="c-message">Message</label>
+								<textarea id="c-message" class="full" name="message" placeholder="Your message" required aria-required="true" aria-label="Your message"></textarea>
+							</div>
+
+							<div class="full" style="text-align:center"><button class="submit-btn" type="submit">Send Message</button></div>
+						</form>
+
+						<div class="socials" role="navigation" aria-label="Social links">
+							<a class="social-btn" href="https://github.com/bipulsanjel" target="_blank" rel="noopener" aria-label="Open GitHub in new tab">
+								<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.38 7.86 10.9.58.1.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.87-1.54-3.87-1.54-.53-1.36-1.3-1.72-1.3-1.72-1.06-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.04 1.78 2.72 1.27 3.38.97.1-.76.41-1.27.74-1.56-2.55-.29-5.23-1.27-5.23-5.66 0-1.25.45-2.27 1.19-3.07-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.17a11.04 11.04 0 0 1 2.9-.39c.98.01 1.97.13 2.9.39 2.2-1.48 3.17-1.17 3.17-1.17.64 1.59.24 2.76.12 3.05.74.8 1.19 1.82 1.19 3.07 0 4.41-2.69 5.36-5.25 5.64.42.36.8 1.07.8 2.16 0 1.56-.01 2.82-.01 3.2 0 .31.21.67.8.56C20.71 21.38 24 17.09 24 12c0-6.35-5.15-11.5-12-11.5z"/></svg>
+								GitHub
+							</a>
+
+							<a class="social-btn" href="https://www.linkedin.com/in/bipul-sanjel-10a224261/" target="_blank" rel="noopener" aria-label="Open LinkedIn in new tab">
+								<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.22 8.98H4.8V24H.22zM8.66 8.98h4.34v2.05h.06c.6-1.14 2.06-2.34 4.23-2.34 4.52 0 5.35 2.98 5.35 6.85V24h-4.6v-7.07c0-1.69-.03-3.87-2.36-3.87-2.36 0-2.72 1.84-2.72 3.74V24H8.66z"/></svg>
+								LinkedIn
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<script>
+				// Small, accessible intersection observer to add .in-view class (animation stays CSS-only)
+				(function(){
+					const card = document.getElementById('contact-card');
+					if(!card) return;
+					const io = new IntersectionObserver((entries)=>{
+						entries.forEach(e=>{ if(e.isIntersecting){ card.classList.add('in-view'); io.disconnect(); } });
+					},{threshold:0.18});
+					io.observe(card);
+				})();
+				</script>
+			</section>
+		<script type="module" src="credentials.js"></script>
+	</body>
+</html>
+
