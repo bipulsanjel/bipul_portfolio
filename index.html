@@ -11,7 +11,6 @@
 		<link rel="stylesheet" href="styles.css">
 		<link rel="stylesheet" href="credentials.css">
 
-		<!-- Draggable/animation libs -->
 		<script defer src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
 		<script defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 	</head>
@@ -38,7 +37,6 @@
 			</div>
 		</main>
 
-		<!-- About section -->
 		<section id="about" class="about-section">
 			<div class="about-inner">
 				<div class="about-grid">
@@ -48,7 +46,6 @@
 						<p>I have a strong background in Figma and a basic background in Flutter, and I enjoy interpreting hard concepts into intuitive digital experiences. Besides my design interest, I have taken leadership roles on collaborative projects and managed large-scale events, experiences that have allowed me to develop key skills in leadership, communication, and management. I pride myself on my attention to detail, my holistic understanding of users, and on becoming an expert at making intuitive, accessible, and beautiful-looking products. I am always looking for opportunities to learn, innovate, and take on projects that have a positive impact.</p>
 					</div>
 					<div class="about-right">
-						<!-- keep the photo; the decorative container behind it is styled in CSS -->
 						<figure class="avatar-placeholder">
 							<img src="hero_image.png" alt="Portrait of Bipul Sanjel" class="avatar-img" loading="lazy">
 						</figure>
@@ -64,66 +61,50 @@
 
 		<section id="projects" class="projects-section" aria-label="Projects">
 					<style>
-						/* Make this section snap as a full-screen panel */
 						html,body{height:100%}
-						/* prevent horizontal page-level scrolling while keeping internal scroll containers functional */
 						body{scroll-snap-type:y proximity;overflow-x:hidden}
 
-						/* Full-width edge-to-edge container (use translateX centering to avoid negative-margin overflow) */
 						#projects{position:relative;background:var(--bg,#020912);overflow:visible;scroll-snap-align:start;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:0}
-						/* Constrain carousel to a centered content column instead of full-bleed */
 						.proj-edge{position:relative;width:100%;max-width:1200px;margin:0 auto;height:100vh;display:flex;align-items:center;overflow:visible;padding:0 1rem}
 		
 
 		
-			/* Premium carousel: GPU-accelerated transform rail with 3D perspective */
 			.carousel{width:100%;height:100%;position:relative;perspective:1200px}
-			/* viewport hides overflow; rail will be translated via JS */
 			.carousel-track{overflow:hidden;height:100%;position:relative}
 			.carousel-rail{display:flex;gap:2.5rem;align-items:center;height:100%;transition:transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);will-change:transform;transform:translateZ(0)}
 
-			/* Slide/card sizing: narrower, centered column look */
 			.slide{flex:0 0 auto;width:48%;max-width:680px;display:flex;justify-content:center;align-items:center;height:100%;transition:opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1)}
 			.card{width:100%;max-width:640px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;padding:24px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 18px 44px rgba(2,6,8,0.7);color:var(--text,#eafaf1);transform-origin:center center;transition:transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),box-shadow 0.6s}
 			.card h3{margin:0 0 10px;font-size:1.3rem}
 			.card .muted{color:#9fbab1;margin:6px 0}
 			.card .desc{color:#cfe9de;margin-top:12px;line-height:1.5}
 
-			/* Center / side treatments */
-			/* stronger center emphasis and dimmer sides - increased prominence */
 			.slide.is-center{opacity:1;z-index:60}
 			.slide.is-center .card{transform:translateZ(90px) scale(1.22);box-shadow:0 52px 140px rgba(2,6,8,0.94)}
 			.slide.is-side{opacity:0.32;z-index:20;pointer-events:none}
 			.slide.is-side .card{transform:translateZ(0) scale(0.80);filter:grayscale(0.06);box-shadow:0 10px 22px rgba(2,6,8,0.56)}
 
-			/* Arrows: minimal, glowing */
-			/* position controls outside the content column using CSS var for content max width */
 			.proj-edge{--content-max:1200px}
 			.controls{position:absolute;top:50%;left:0;right:0;pointer-events:none;z-index:60}
 			.arrow{pointer-events:auto;position:absolute;top:50%;transform:translateY(-50%);width:62px;height:62px;border-radius:12px;border:none;background:rgba(8,12,10,0.14);color:#98e8cd;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 30px rgba(152,232,205,0.18),0 0 18px rgba(152,232,205,0.12);backdrop-filter:blur(6px);outline:none}
 			.arrow:hover{box-shadow:0 10px 40px rgba(152,232,205,0.28),0 0 28px rgba(152,232,205,0.18);transform:translateY(-50%) scale(1.02)}
 			.arrow svg{width:20px;height:20px;stroke:#98e8cd;stroke-width:1.8;fill:none}
-			/* place arrows outside the centered content column */
 			.arrow.left{left:calc(50% - (var(--content-max)/2) - 44px)}
 			.arrow.right{left:calc(50% + (var(--content-max)/2) + 12px)}
 
-			/* Pagination dots positioned near the cards (higher than before) */
 			.carousel-dots{position:absolute;left:50%;transform:translateX(-50%);bottom:180px;display:flex;gap:10px;z-index:70}
 			.carousel-dots .dot{width:10px;height:10px;border-radius:999px;border:none;background:rgba(255,255,255,0.08);cursor:pointer;transition:all 240ms ease;outline:none}
 			.carousel-dots .dot.active{width:28px;background:linear-gradient(90deg,#98e8cd,#6fe6c1);box-shadow:0 8px 20px rgba(152,232,205,0.18)}
 
-			/* Card footer: centered GitHub button */
 			.card .card-footer{display:flex;justify-content:center;margin-top:16px}
 			.card .repo-btn{display:inline-block;padding:10px 18px;border-radius:10px;background:linear-gradient(90deg,#98e8cd,#6fe6c1);color:#04201a;text-decoration:none;font-weight:600;box-shadow:0 8px 20px rgba(152,232,205,0.12);transition:transform 160ms ease, box-shadow 160ms ease}
 			.card .repo-btn:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(152,232,205,0.18)}
 
-			/* Projects section title */
 			.projects-title{position:relative;left:50%;transform:translateX(-50%);color:#98e8cd;font-size:5.0rem;letter-spacing:0.02em;margin:-110px 0 14px;text-align:center;z-index:55}
 			@media (min-width:900px){
 				.projects-title{position:absolute;top:18vh}
 			}
 		
-		    /* Responsive adjustments */
 											@media (max-width:1100px){
 												.carousel-track{padding:0 4vw}
 												.carousel-rail{gap:2rem}
@@ -135,9 +116,7 @@
 													.carousel-track{padding:0 3rem}
 													.carousel-rail{gap:1.25rem}
 													.slide{width:92vw;max-width:none}
-													/* keep dots lower on small screens so they don't overlap card content */
 													.carousel-dots{bottom:24px}
-													/* arrows remain visible per request */
 												}
 		  </style>
 
@@ -145,7 +124,6 @@
 				<h2 class="projects-title">Projects</h2>
 		    <div class="carousel">
 					<div class="carousel-track" id="proj-track" tabindex="0" role="list">
-						<!-- Slides will be generated dynamically from projectsData (exact JSON provided by user) -->
 					</div>
 
 					<script>
@@ -210,11 +188,9 @@
 						];
 
 						const track = document.getElementById('proj-track');
-						// build a transformable rail inside the viewport
 						track.innerHTML = '<div class="carousel-rail" role="list"></div>';
 						const rail = track.querySelector('.carousel-rail');
 
-						// generate slides from exact projectsData into the rail
 						projectsData.forEach(p=>{
 							const slide = document.createElement('div'); slide.className='slide'; slide.setAttribute('role','listitem');
 							const art = document.createElement('article'); art.className='card';
@@ -231,16 +207,13 @@
 							rail.appendChild(slide);
 						});
 
-						// after rendering slides, make an infinite loop by cloning first/last
 						let slides = Array.from(rail.querySelectorAll('.slide'));
 						const realCount = slides.length;
 
-						// helper: enhance rail for smoother GPU transforms
 						rail.style.willChange = 'transform';
 						rail.style.backfaceVisibility = 'hidden';
 						rail.style.transformStyle = 'preserve-3d';
 
-						// Only clone when we have more than 1 slide
 						if(realCount > 1){
 							const firstClone = slides[0].cloneNode(true);
 							const lastClone = slides[slides.length-1].cloneNode(true);
@@ -248,20 +221,16 @@
 							lastClone.classList.add('clone');
 							rail.appendChild(firstClone);
 							rail.insertBefore(lastClone, rail.firstChild);
-							// refresh slides array to include clones
 							slides = Array.from(rail.querySelectorAll('.slide'));
 						}
 
-						// compute static positions for each slide center to avoid layout thrash
 						let positions = [];
 						function computePositions(){
 							positions = slides.map(s => s.offsetLeft - (track.clientWidth/2 - s.offsetWidth/2));
 						}
 
-						// start at the first real slide (index 1 if clones added, else 0)
 						let index = (realCount > 1) ? 1 : 0;
 
-						// create pagination dots for real slides only
 						const projEdge = track.closest('.proj-edge');
 						const dotsWrap = document.createElement('div'); dotsWrap.className = 'carousel-dots';
 						for(let i=0;i<realCount;i++){
@@ -277,14 +246,11 @@
 							ds.forEach((b,ii)=> b.classList.toggle('active', ii===logical));
 						}
 
-						// use precomputed positions and GPU-friendly translate3d
 						function update(instant){
 							if(!slides.length) return;
-							// ensure positions are up-to-date
 							if(!positions.length) computePositions();
 							let target = positions[index];
 							if(typeof target === 'undefined'){
-								// fallback to measured current
 								const current = slides[index];
 								target = current.offsetLeft - (track.clientWidth/2 - current.offsetWidth/2);
 							}
@@ -292,7 +258,6 @@
 							if(instant){
 								rail.style.transition = 'none';
 								rail.style.transform = `translate3d(${ -Math.round(target) }px,0,0)`;
-								// force paint then restore
 								requestAnimationFrame(()=>{ rail.offsetHeight; rail.style.transition = 'transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)'; });
 							} else {
 								rail.style.transform = `translate3d(${ -Math.round(target) }px,0,0)`;
@@ -305,26 +270,20 @@
 							updateDots();
 						}
 
-						// handle seamless jump when landing on clones
 						rail.addEventListener('transitionend', ()=>{
 							if(slides[index] && slides[index].classList.contains('clone')){
 								if(index === 0){
-									// jumped to clone of last -> go to real last
 									index = realCount;
 								} else if(index === slides.length - 1){
-									// jumped to clone of first -> go to real first
 									index = 1;
 								}
-								// recompute positions then jump without transition
 								computePositions();
 								update(true);
 							}
 						});
 
-						// initial layout center after first paint — compute positions first
 						requestAnimationFrame(()=>{ computePositions(); requestAnimationFrame(update); });
 
-						// bind controls when they exist in the DOM (controls are rendered after this script block)
 						function bindControls(){
 							const prevBtn = document.getElementById('proj-prev');
 							const nextBtn = document.getElementById('proj-next');
@@ -334,33 +293,27 @@
 						}
 						bindControls();
 
-						// keyboard
 						track.tabIndex = 0;
 						track.addEventListener('keydown', (e)=>{
 							if(e.key === 'ArrowLeft'){ index = index - 1; update(); resetAutoplay(); }
 							if(e.key === 'ArrowRight'){ index = index + 1; update(); resetAutoplay(); }
 						});
 
-						// click-to-center (map clicks on real slides correctly)
 						slides.forEach((s,i)=> s.addEventListener('click', ()=>{ index = i; update(); }));
 
-						// recenter on resize — recompute positions for smooth transitions
 						let rt;
 						window.addEventListener('resize', ()=>{ clearTimeout(rt); rt = setTimeout(()=>{ computePositions(); update(true); }, 120); });
 
-						// autoplay with seamless increment
 						let autoplayId = null;
 						function startAutoplay(){ if(autoplayId) return; autoplayId = setInterval(()=>{ index = index + 1; update(); }, 4000); }
 						function stopAutoplay(){ if(!autoplayId) return; clearInterval(autoplayId); autoplayId = null; }
 						function resetAutoplay(){ stopAutoplay(); startAutoplay(); }
 
-						// pause on hover/focus
 						track.addEventListener('mouseenter', ()=> stopAutoplay());
 						track.addEventListener('mouseleave', ()=> startAutoplay());
 						track.addEventListener('focusin', ()=> stopAutoplay());
 						track.addEventListener('focusout', ()=> startAutoplay());
 
-						// start autoplay after initial paint
 						requestAnimationFrame(()=>{ startAutoplay(); });
 
 					})();
@@ -375,16 +328,13 @@
 		</section>
 			<section id="contact" class="contact-section" aria-label="Contact">
 				<style>
-					/* Contact page — upgraded UX, accessibility, and visuals */
 					.contact-section{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--bg,#020912);color:var(--text,#eafaf1);padding:6vh 1rem;position:relative}
 
-					/* soft animated aura behind the card (subtle drifting) */
 					.contact-card-wrap{position:relative;display:flex;align-items:center;justify-content:center}
 					.contact-card-wrap::before{
 						content:"";
 						position:absolute;
 						inset:-28px;
-						/* two gentle radial blobs with low opacity */
 						background:
 							radial-gradient(circle at 30% 30%, rgba(152,232,205,0.07), transparent 22%),
 							radial-gradient(circle at 70% 75%, rgba(111,230,193,0.05), transparent 20%);
@@ -393,7 +343,6 @@
 						z-index:0;
 						pointer-events:none;
 						will-change:transform,background-position;
-						/* subtle multidirectional drift (faster) */
 						animation:auraMove 8s ease-in-out infinite;
 					}
 
@@ -405,11 +354,9 @@
 						100%{transform:translate3d(-6px,0,0) scale(1);background-position:20% 30%,70% 80%}
 					}
 
-					/* animated gradient border using pseudo-element */
 					.contact-card{position:relative;z-index:5;max-width:920px;width:100%;background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));border-radius:18px;padding:40px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 36px 100px rgba(2,6,8,0.75);text-align:center;backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);overflow:hidden}
 					.contact-card::after{content:"";position:absolute;inset:0;padding:2px;border-radius:20px;background:linear-gradient(90deg,#7ef0c6,#98e8cd,#6fe6c1,#7ef0c6);-webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);mask-composite:exclude;pointer-events:none;opacity:0.8;filter:blur(10px)}
 
-					/* entrance animation triggered when .in-view is applied (JS adds class) */
 					.contact-card{transform:translateY(18px);opacity:0;transition:transform 620ms cubic-bezier(0.2,0.9,0.2,1),opacity 520ms ease}
 					.contact-card.in-view{transform:translateY(0);opacity:1}
 
@@ -426,28 +373,22 @@
 					input:focus{box-shadow:0 8px 34px rgba(152,232,205,0.14)}
 					textarea{min-height:150px;resize:vertical}
 
-					/* stronger focus outlines for accessibility */
 					input:focus,textarea:focus{outline:3px solid rgba(152,232,205,0.14);outline-offset:3px}
 
-					/* micro-interactions: hover + focus glow */
 					input:hover,textarea:hover{border-color:rgba(152,232,205,0.12)}
 
 					.submit-btn{display:inline-block;padding:14px 26px;border-radius:12px;background:linear-gradient(90deg,#7ef0c6,#98e8cd);color:#04201a;font-weight:800;border:none;cursor:pointer;margin-top:6px;transition:transform 180ms ease, box-shadow 180ms ease, background-position 400ms ease;background-size:200% 100%}
 					.submit-btn:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 20px 50px rgba(14,30,25,0.18);background-position:100% 0}
 					.submit-btn:active{transform:translateY(-1px)}
 
-					/* social buttons */
 					.socials{display:flex;gap:12px;justify-content:center;margin-top:18px}
 					.social-btn{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:rgba(255,255,255,0.03);color:#eafaf1;text-decoration:none;border:1px solid rgba(255,255,255,0.04);font-weight:700;transition:transform 180ms ease, box-shadow 180ms ease}
 					.social-btn svg{width:18px;height:18px;fill:currentColor;transition:transform 160ms ease}
-					/* Nudge the LinkedIn icon slightly upward for visual alignment */
 					.socials a[href*="linkedin"] svg{transform:translateY(-3px)}
 					.social-btn:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(2,6,8,0.6)}
 
-					/* large tap targets for mobile */
 					.social-btn{padding:12px 18px;font-size:0.95rem}
 
-					/* responsive */
 					@media(max-width:900px){.contact-title{font-size:2.6rem}.contact-card{padding:28px}}
 					@media(max-width:760px){form.contact-form{grid-template-columns:1fr}.contact-title{font-size:2.2rem}.contact-sub{font-size:0.9rem}}
 				</style>
@@ -497,7 +438,6 @@
 				</div>
 
 				<script>
-				// Small, accessible intersection observer to add .in-view class (animation stays CSS-only)
 				(function(){
 					const card = document.getElementById('contact-card');
 					if(!card) return;
